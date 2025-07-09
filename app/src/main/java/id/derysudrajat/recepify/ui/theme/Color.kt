@@ -14,6 +14,12 @@ object AppColor{
     object Main{
         val Primary = Color(0xFFE87D30)
         val Secondary = Color(0xFFFFDBA4)
+        val Alternative = Color(0xFF261E0E)
         val Light = Color(0xFFFFF5E5)
+    }
+
+    object Text {
+        val Main = Color(0xFF000000)
+        val Secondary = Color(0xFF5C5C5C)
     }
 }

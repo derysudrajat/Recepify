@@ -2,9 +2,9 @@ package id.derysudrajat.recepify
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.indication
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.sizeIn
@@ -16,22 +16,25 @@ import androidx.compose.material3.ripple
 import androidx.compose.material3.toShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
-
-class CustomButton
-{
-}
+import id.derysudrajat.recepify.ui.theme.AppColor
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun CustomButton(modifier: Modifier = Modifier) {
+fun AppButtonCookie(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    content: @Composable BoxScope.() -> Unit,
+) {
     val interactionSource = remember { MutableInteractionSource() }
     val animationSpec = MaterialTheme.motionScheme.defaultSpatialSpec<Float>()
     Box(
-        modifier = Modifier
+        modifier = modifier
             .defaultMinSize(minHeight = 48.dp, minWidth = 48.dp)
             .sizeIn(
                 minHeight = 48.dp,
@@ -40,21 +43,21 @@ fun CustomButton(modifier: Modifier = Modifier) {
                 maxWidth = ButtonDefaults.ExtraLargeContainerHeight,
             )
             .aspectRatio(1f, matchHeightConstraintsFirst = true)
-            .indication(interactionSource, ScaleIndicationNodeFactory(animationSpec))
+            .expIndication(interactionSource)
+            .clip(MaterialShapes.Cookie9Sided.toShape())
             .background(
-                MaterialTheme.colorScheme.onSurface,
+                AppColor.Main.Alternative,
                 MaterialShapes.Cookie9Sided.toShape(),
             )
             .clickable(
                 interactionSource = interactionSource,
                 indication = ripple(color = Color.White),
-                onClick = {
-                },
+                onClick = onClick,
                 role = Role.Button,
                 enabled = true,
                 onClickLabel = "",
             ),
-    ) {
-
-    }
+        contentAlignment = Alignment.Center,
+        content = content
+    )
 }
