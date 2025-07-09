@@ -35,6 +35,7 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import id.derysudrajat.recepify.R
+import id.derysudrajat.recepify.expClickable
 import id.derysudrajat.recepify.expIndication
 import id.derysudrajat.recepify.ui.theme.AppColor
 import id.derysudrajat.recepify.ui.theme.AppStatusBarColor
@@ -108,15 +109,7 @@ fun HomeContent(modifier: Modifier = Modifier) {
                     .layoutId(HomeScreenId.Button)
                     .expIndication(interactionSource)
                     .background(AppColor.Main.Light, CircleShape)
-                    .clickable(
-                        interactionSource = interactionSource,
-                        indication = ripple(color = AppColor.Main.Primary),
-                        onClick = {
-                        },
-                        role = Role.Button,
-                        enabled = true,
-                        onClickLabel = "",
-                    )
+                    .expClickable(interactionSource, onClick = {})
                     .padding(horizontal = 48.dp, vertical = 16.dp)
             ) {
                 Text(
