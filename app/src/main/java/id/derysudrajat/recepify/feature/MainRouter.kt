@@ -12,14 +12,14 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import id.derysudrajat.recepify.feature.generate.GenerateLoadingScreen
 import id.derysudrajat.recepify.feature.home.HomeContent
-import id.derysudrajat.recepify.feature.result.ResultContent
+import id.derysudrajat.recepify.feature.result.ResultScreen
 import id.derysudrajat.recepify.feature.upload.UploadPhotoContent
 
 private object MainNav {
     data object Home
     data object Upload
     data class Generate(val uriImage: String)
-    data class Result(val result: String)
+    data class Result(val uriImage: String, val result: String)
 }
 
 @Composable
@@ -60,12 +60,19 @@ fun MainRouter(modifier: Modifier = Modifier) {
                     uri = it.uriImage,
                     onBack = { backStack.removeLastOrNull() },
                     goResult = { result ->
-                        backStack.add(MainNav.Result(result))
+                        backStack.removeLastOrNull()
+                        backStack.add(MainNav.Result(it.uriImage, result))
                     }
                 )
             }
             entry<MainNav.Result> {
-                ResultContent(it.result)
+                ResultScreen(
+                    image = it.uriImage,
+                    result = it.result,
+                    onBack = {
+                        backStack.removeLastOrNull()
+                    }
+                )
             }
         }
     )

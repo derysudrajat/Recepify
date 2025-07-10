@@ -23,6 +23,7 @@ fun GenerateLoadingScreen(
                 uri = uri.toUri()
             )
             viewModel.generateRecipe(
+                file = file,
                 onSuccess = goResult,
                 onFailed = {
                     Toast.makeText(context, "Failed generating recipe", Toast.LENGTH_SHORT).show()

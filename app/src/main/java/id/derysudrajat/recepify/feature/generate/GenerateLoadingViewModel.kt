@@ -10,7 +10,9 @@ import com.google.firebase.ai.type.Schema
 import com.google.firebase.ai.type.content
 import com.google.firebase.ai.type.generationConfig
 import dagger.hilt.android.lifecycle.HiltViewModel
+import id.derysudrajat.recepify.utils.LocalProviderUtils
 import kotlinx.coroutines.launch
+import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
@@ -64,22 +66,54 @@ class GenerateLoadingViewModel @Inject constructor() : ViewModel() {
         )
     )
 
+    private val baseResponseSchema = Schema.obj(
+        mapOf(
+            // Define the envelope fields
+            "status" to Schema.string(),
+            "code" to Schema.string(),
+            "message" to Schema.string(),
+
+            // The 'data' field's schema is the recipe schema defined above
+            "data" to jsonSchema
+        ),
+        // 'data' and 'message' are optional. 'data' might not exist in an error response,
+        // and 'message' might not exist in a success response.
+        optionalProperties = listOf("data", "message")
+    )
+
     private val model = Firebase.ai(backend = GenerativeBackend.googleAI())
         .generativeModel(
             modelName = "gemini-2.5-flash",
             generationConfig = generationConfig {
                 responseMimeType = "application/json"
-                responseSchema = jsonSchema
+                responseSchema = baseResponseSchema
             }
         )
 
     fun generateRecipe(
+        file: File,
         onSuccess: (result: String) -> Unit,
         onFailed: () -> Unit
     ) {
         viewModelScope.launch {
+            val promptText = """
+                    Tugas Anda adalah bertindak sebagai asisten koki yang cerdas. Ikuti instruksi ini dengan saksama:
+                    
+                    1.  **Analisis Gambar:** Pertama, periksa gambar yang diberikan untuk menentukan apakah objek utamanya adalah jenis makanan atau hidangan.
+                    
+                    2.  **Kondisi Sukses (Jika Gambar adalah Makanan):**
+                        Jika gambar tersebut adalah makanan, buatkan resep lengkapnya untuk membuat makanan seperti pada gambar dengan list bahan bahan dan juga step-step cara membuatnya
+                    
+                    3.  **Kondisi Gagal (Jika Gambar BUKAN Makanan):**
+                        Jika gambar tersebut jelas-jelas bukan makanan (misalnya: mobil, hewan, bangunan, orang), JANGAN mencoba membuat resep. Sebagai gantinya, berikan respons error dengan pesan yang jelas. Jawab HANYA dengan format berikut:
+                        {"status" : "error"
+                        "code" : "403"
+                        "message" : "Gambar yang diberikan tidak teridentifikasi sebagai makanan."
+                        "data" : {} }
+            """
             val prompt = content {
-                text("Buatkan resep untuk membuat ayam geprek dengan list bahan bahan dan juga step-step cara membuatnya")
+                image(LocalProviderUtils.getBitmap(file))
+                text(promptText)
             }
             try {
                 val response = model.generateContent(prompt)

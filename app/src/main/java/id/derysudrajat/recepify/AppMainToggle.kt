@@ -1,6 +1,5 @@
 package id.derysudrajat.recepify
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
@@ -11,31 +10,30 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.ToggleButton
 import androidx.compose.material3.ToggleButtonDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import id.derysudrajat.recepify.ui.theme.AppColor
 import id.derysudrajat.recepify.ui.theme.RecepifyTheme
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun AppMainToggle(modifier: Modifier = Modifier) {
-    val options by remember { mutableStateOf(listOf("Photo", "Prompt")) }
+fun AppMainToggle(
+    options: List<String>,
+    modifier: Modifier = Modifier,
+    onSelectedChange: (index: Int) -> Unit,
+) {
 
-    val (selectedOption, onOptionSelected) = remember { mutableStateOf("Photo") }
+    val (selectedOption, onOptionSelected) = remember { mutableStateOf(options.first()) }
     HorizontalFloatingToolbar(
-        modifier = modifier.border(
-            2.dp,
-            color = MaterialTheme.colorScheme.outline,
-            shape = MaterialTheme.shapes.large,
-        ),
+        modifier = modifier,
         colors = FloatingToolbarColors(
-            toolbarContainerColor = MaterialTheme.colorScheme.surface,
-            toolbarContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-            fabContainerColor = MaterialTheme.colorScheme.tertiary,
-            fabContentColor = MaterialTheme.colorScheme.onTertiary,
+            toolbarContainerColor = AppColor.Main.Secondary,
+            toolbarContentColor = AppColor.Main.Light,
+            fabContainerColor = AppColor.Main.Light,
+            fabContentColor = AppColor.Main.Light,
         ),
         expanded = true,
     ) {
@@ -43,11 +41,14 @@ fun AppMainToggle(modifier: Modifier = Modifier) {
             ToggleButton(
                 modifier = Modifier,
                 checked = selectedOption == label,
-                onCheckedChange = { onOptionSelected(label) },
+                onCheckedChange = {
+                    onOptionSelected(label)
+                    onSelectedChange(index)
+                },
                 shapes = ToggleButtonDefaults.shapes(checkedShape = MaterialTheme.shapes.large),
                 colors = ToggleButtonDefaults.toggleButtonColors(
-                    checkedContainerColor = MaterialTheme.colorScheme.onSurface,
-                    containerColor = MaterialTheme.colorScheme.surface,
+                    checkedContainerColor = AppColor.Main.Alternative,
+                    containerColor = AppColor.Main.Secondary,
                 ),
             ) {
                 Text(label, maxLines = 1)
@@ -63,6 +64,9 @@ fun AppMainToggle(modifier: Modifier = Modifier) {
 @Composable
 private fun PreviewAppMainToggle() {
     RecepifyTheme {
-        AppMainToggle()
+        AppMainToggle(
+            options = listOf("Bahan-Bahan", "Cara Pembuatan"),
+            onSelectedChange = {}
+        )
     }
 }
