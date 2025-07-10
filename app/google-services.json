@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "180920311503",
+    "project_id": "recepify-id",
+    "storage_bucket": "recepify-id.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:180920311503:android:5f589f76fe2636b187e1ba",
+        "android_client_info": {
+          "package_name": "id.derysudrajat.recepify"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWkRejmefiihGFOfM0XaZQTkbs3zDnpTU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
