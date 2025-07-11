@@ -27,9 +27,16 @@ fun ResultScreen(
             }
         )
     }
-    ResultContent(
-        image = image,
-        recipeData = recipeData,
-        onBack = onBack
-    )
+    if (recipeData != RecipeData.Empty) {
+        ResultContent(
+            image = image,
+            recipeData = recipeData,
+            onBack = onBack
+        )
+    } else {
+        ResultErrorContent(
+            errorMessage = resultMessage,
+            onBack = onBack
+        )
+    }
 }
