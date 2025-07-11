@@ -27,5 +27,9 @@ fun ResultScreen(
             }
         )
     }
-
+    ResultContent(
+        image = image,
+        recipeData = recipeData,
+        onBack = onBack
+    )
 }

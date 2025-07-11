@@ -102,7 +102,7 @@ class GenerateLoadingViewModel @Inject constructor() : ViewModel() {
                     1.  **Analisis Gambar:** Pertama, periksa gambar yang diberikan untuk menentukan apakah objek utamanya adalah jenis makanan atau hidangan.
                     
                     2.  **Kondisi Sukses (Jika Gambar adalah Makanan):**
-                        Jika gambar tersebut adalah makanan, buatkan resep lengkapnya untuk membuat makanan seperti pada gambar dengan list bahan bahan dan juga step-step cara membuatnya
+                        Jika gambar tersebut adalah makanan, buatkan resep lengkapnya untuk membuat makanan seperti pada gambar dengan list bahan bahan dan juga step-step cara membuatnya dalam bahasa Indonesia
                     
                     3.  **Kondisi Gagal (Jika Gambar BUKAN Makanan):**
                         Jika gambar tersebut jelas-jelas bukan makanan (misalnya: mobil, hewan, bangunan, orang), JANGAN mencoba membuat resep. Sebagai gantinya, berikan respons error dengan pesan yang jelas. Jawab HANYA dengan format berikut:

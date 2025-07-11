@@ -51,7 +51,11 @@ fun AppMainToggle(
                     containerColor = AppColor.Main.Secondary,
                 ),
             ) {
-                Text(label, maxLines = 1)
+                Text(
+                    label,
+                    maxLines = 1,
+                    color = if (selectedOption == label) AppColor.Main.Light else AppColor.Main.Alternative
+                )
             }
             if (index != options.size - 1) {
                 Spacer(Modifier.width(8.dp))
